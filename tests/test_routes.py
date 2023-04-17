@@ -197,11 +197,6 @@ class TestAccountService(TestCase):
     def test_update_account_not_found(self):
         """It should not Update an Account that is not found"""
         account = AccountFactory()
-        response = self.client.post(
-            BASE_URL,
-            json=account.serialize(),
-            content_type="application/json"
-        )
         resp = self.client.put(
             f"{BASE_URL}/9999",
             json=account.serialize(),
