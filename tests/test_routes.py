@@ -203,3 +203,27 @@ class TestAccountService(TestCase):
             content_type="application/json"
         )
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_list_accounts(self):
+        """It should List the Accounts"""
+        response = self.client.get(
+            BASE_URL
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.get_json()), 0)
+
+        account = AccountFactory()
+        response = self.client.post(
+            BASE_URL,
+            json=account.serialize(),
+            content_type="application/json"
+        )
+
+        new_account = response.get_json()
+        account_id = new_account["id"]
+
+        response = self.client.get(
+            BASE_URL
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.get_json()), 1)
