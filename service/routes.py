@@ -59,6 +59,7 @@ def create_accounts():
 # LIST ALL ACCOUNTS
 ######################################################################
 
+
 @app.route("/accounts", methods=["GET"])
 def list_accounts():
     """
@@ -77,6 +78,7 @@ def list_accounts():
 ######################################################################
 # READ AN ACCOUNT
 ######################################################################
+
 
 @app.route("/accounts/<account_id>", methods=["GET"])
 def read_account(account_id):
@@ -125,7 +127,6 @@ def update_account(account_id):
     return make_response(
         jsonify(message), status.HTTP_200_OK
     )
-
 
 
 ######################################################################
