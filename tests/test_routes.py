@@ -25,6 +25,8 @@ HTTPS_ENVIRON = {'wsgi.url_scheme': 'https'}
 ######################################################################
 #  T E S T   C A S E S
 ######################################################################
+
+
 class TestAccountService(TestCase):
     """Account Service Tests"""
 
@@ -153,7 +155,7 @@ class TestAccountService(TestCase):
         self.assertEqual(returned["address"], account.address)
         self.assertEqual(returned["phone_number"], account.phone_number)
         self.assertEqual(returned["date_joined"], str(account.date_joined))
-    
+
     def test_account_not_found(self):
         """It should not Read an Account that is not found"""
         resp = self.client.get(f"{BASE_URL}/9999")
@@ -180,7 +182,6 @@ class TestAccountService(TestCase):
             content_type="application/json"
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        updated_account = response.get_json()
 
         response = self.client.get(
             f"{BASE_URL}/{account_id}",
@@ -222,9 +223,6 @@ class TestAccountService(TestCase):
             content_type="application/json"
         )
 
-        new_account = response.get_json()
-        account_id = new_account["id"]
-
         response = self.client.get(
             BASE_URL
         )
@@ -241,7 +239,7 @@ class TestAccountService(TestCase):
         """It should not allow an illegal method call"""
         resp = self.client.put(BASE_URL)
         self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-    
+
     def test_security_headers(self):
         """It should return security headers"""
         response = self.client.get("/", environ_overrides=HTTPS_ENVIRON)
@@ -256,7 +254,7 @@ class TestAccountService(TestCase):
 
         for key, value in headers.items():
             self.assertEqual(response.headers.get(key), value)
-    
+
     def test_cors(self):
         """It should return CORS security headers"""
         response = self.client.get("/", environ_overrides=HTTPS_ENVIRON)
